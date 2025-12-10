@@ -25,11 +25,11 @@ async function fetchProductDetail(path, sku, isAuthor) {
       console.error("Product Detail: Missing path or SKU");
       return null;
     }
-    const sku = isAuthor ? `;sku=${sku}` : `&sku=${sku}`;
+    const skuItem = isAuthor ? `;sku=${sku}` : `&sku=${sku}`;
     const baseUrl = isAuthor
       ? "https://author-p165802-e1765367.adobeaemcloud.com/graphql/execute.json/luma3/getProductsByPathAndSKU;"
       : "https://275323-918sangriatortoise.adobeioruntime.net/api/v1/web/dx-excshell-1/lumaProductsGrapghQlByPathAndSku?";
-    const url = `${baseUrl}_path=${path}${sku}`;
+    const url = `${baseUrl}_path=${path}${skuItem}`;
     const resp = await fetch(url, {
       method: "GET",
       headers: {
