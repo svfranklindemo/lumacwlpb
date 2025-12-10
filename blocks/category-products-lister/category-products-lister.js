@@ -73,7 +73,13 @@ async function fetchProducts(path) {
     : "https://275323-918sangriatortoise.adobeioruntime.net/api/v1/web/dx-excshell-1/lumaProductsGraphQl?";
   const url = `${baseUrl}_path=${path}`;
 
-    const resp = await fetch(url, { method: 'GET' });
+    const resp = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        Pragma: 'no-cache',
+      },
+    });
     const json = await resp.json();
     return json?.data?.productsModelList?.items || [];
   } catch (e) {
