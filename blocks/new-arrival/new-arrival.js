@@ -1,9 +1,6 @@
 import { readBlockConfig, createOptimizedPicture } from "../../scripts/aem.js";
 import { isAuthorEnvironment } from "../../scripts/scripts.js";
 
-const GQL_BASE =
-  "https://275323-918sangriatortoise.adobeioruntime.net/api/v1/web/dx-excshell-1/lumaProductsGraphQl";
-
 function buildCard(item, isAuthor) {
   const { id, sku, name, image = {}, category = [] } = item || {};
   let imgUrl = isAuthor ? image?._authorUrl : image?._publishUrl;
@@ -95,7 +92,10 @@ async function fetchProducts(path) {
   try {
     if (!path) return [];
     // For AEM parameterized queries, use semicolon syntax: ;_path=value
-    const url = `${GQL_BASE}?_path=${path}`;
+    const baseUrl = isAuthorEnvironment()
+      ? "https://author-p165802-e1765367.adobeaemcloud.com/graphql/execute.json/luma3/menproductspagelister"
+      : "https://275323-918sangriatortoise.adobeioruntime.net/api/v1/web/dx-excshell-1/lumaProductsGraphQl";
+    const url = `${baseUrl}?_path=${path}`;
     const resp = await fetch(url, { method: "GET" });
     const json = await resp.json();
     const items = json?.data?.productsModelList?.items || [];
