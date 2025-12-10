@@ -29,6 +29,7 @@ async function fetchProductDetail(path, sku, isAuthor) {
       ? "https://author-p165802-e1765367.adobeaemcloud.com/graphql/execute.json/luma3/getProductsByPathAndSKU"
       : "https://275323-918sangriatortoise.adobeioruntime.net/api/v1/web/dx-excshell-1/lumaProductsGrapghQlByPathAndSku";
     const url = `${baseUrl}?_path=${path}&sku=${sku}`;
+    const resp = await fetch(url, { method: "GET" });
     const json = await resp.json();
     const items = json?.data?.productsModelList?.items || [];
     return items.length > 0 ? items[0] : null;
